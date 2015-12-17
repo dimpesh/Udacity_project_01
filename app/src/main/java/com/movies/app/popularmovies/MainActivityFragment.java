@@ -139,7 +139,7 @@ public class MainActivityFragment extends Fragment {
 
 
             final String movieBaseUrl="http://api.themoviedb.org/3/discover/movie?";
-            String api_key="null";
+            String api_key="69323240f26aaa3f0ed513e2fd344a5f";
             String API_PARAM="api_key";
             String TYPE_PARAM="sort_by";
             String type=strings[0];
