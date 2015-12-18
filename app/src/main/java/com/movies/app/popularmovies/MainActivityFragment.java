@@ -48,7 +48,7 @@ public class MainActivityFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setRetainInstance(true);
+    //    setRetainInstance(true);
         setHasOptionsMenu(true);
     }
 
@@ -139,18 +139,19 @@ public class MainActivityFragment extends Fragment {
 
 
             final String movieBaseUrl="http://api.themoviedb.org/3/discover/movie?";
-            String api_key="null";
+            String api_key=getString(R.string.api_key);
             String API_PARAM="api_key";
             String TYPE_PARAM="sort_by";
+            String YEAR_PARAM="primary_release_year";
+            String year="2015";
             String type=strings[0];
             HttpURLConnection urlConnection = null;
             BufferedReader reader = null;
             String movieJSONStr = null;
             try {
 
-                Uri buildUri=Uri.parse(movieBaseUrl).buildUpon().appendQueryParameter(TYPE_PARAM,type).appendQueryParameter(API_PARAM,api_key).build();
+                Uri buildUri=Uri.parse(movieBaseUrl).buildUpon().appendQueryParameter(YEAR_PARAM,year).appendQueryParameter(TYPE_PARAM,type).appendQueryParameter(API_PARAM,api_key).build();
                 URL url=new URL(buildUri.toString());
-                Log.v("MY URL",url.toString());
                 urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setRequestMethod("GET");
                 urlConnection.connect();
@@ -170,14 +171,11 @@ public class MainActivityFragment extends Fragment {
                     movieJSONStr = null;
                 }
                 movieJSONStr = buffer.toString();
-                // Log.v("MY JSON OUTPUT", forecastJSONStr);
                 String title="title";
                 String vote_average="vote_avergae";
                 String overview="overview";
                 JSONObject movieJSONObject=new JSONObject(movieJSONStr);
                 JSONArray movieJSONArray=movieJSONObject.optJSONArray("results");
-//                movieObjects=new MovieObject[movieJSONArray.length()];
-                //str=new String[movieJSONArray.length()];
                 movieObjects=new MovieObject[movieJSONArray.length()];
                 for(int i=0;i<movieJSONArray.length();i++)
                 {
@@ -188,14 +186,7 @@ public class MainActivityFragment extends Fragment {
                     movieObjects[i].poster_path=jsonObject.optString("poster_path").toString();
                     movieObjects[i].release_date = jsonObject.getString("release_date").toString();
                     movieObjects[i].vote_average=jsonObject.getString("vote_average").toString();
-                   // str[i] = jsonObject.getString("poster_path");
                 }
-                /*
-                for(String s : str)
-                {
-                    Log.v("POSTER PATH",s);
-                }
-                */
 
             } catch (MalformedURLException e) {
                 e.printStackTrace();
@@ -208,7 +199,6 @@ public class MainActivityFragment extends Fragment {
             return movieObjects;
 
 
-          //  return null;
         }
     }
 }
